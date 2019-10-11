@@ -4,7 +4,7 @@
   "description": "study2gether.online",
   "main": "socket.js",
   "scripts": {
-    "start": "nodemon socket"
+    "start": "node socket"
   },
   "keywords": [],
   "author": "",
