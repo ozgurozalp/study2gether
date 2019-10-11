@@ -1,0 +1,16 @@
+{
+  "name": "study2gether",
+  "version": "1.0.0",
+  "description": "study2gether.online",
+  "main": "socket.js",
+  "scripts": {
+    "start": "nodemon socket"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  }
+}
