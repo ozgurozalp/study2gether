@@ -21,7 +21,5 @@ io.on('connection', function (socket) {
 
 });
 
-server.listen(port, () => {
-    console.log(`${port} portunda çalışıyorum.`)
-});
+server.listen(port, () => console.log(`${port} portunda çalışıyorum.`));
 // WARNING: app.listen(80) will NOT work here!
