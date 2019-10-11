@@ -1,7 +1,7 @@
 const app = require('express')();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
-const port = 80;
+const PORT = process.env.PORT || 5000
 
 console.log('başladı');
 
@@ -21,5 +21,5 @@ io.on('connection', function (socket) {
 
 });
 
-server.listen(port, () => console.log(`${port} portunda çalışıyorum.`));
+server.listen(PORT, () => console.log(`${PORT} portunda çalışıyorum.`));
 // WARNING: app.listen(80) will NOT work here!
