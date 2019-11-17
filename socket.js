@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 5000
 console.log('başladı');
 
 app.get('/', function (req, res) {
-    res.send('Hello World!');
+    res.send('Özgür Cereni seviyor...');
 });
 
 io.on('connection', function (socket) {
@@ -14,7 +14,7 @@ io.on('connection', function (socket) {
 
     socket.on('broadcast', data => {
         console.log(data);
-        io.emit('text', { 
+        io.emit('text', {
             text: data.text
         });
     });
