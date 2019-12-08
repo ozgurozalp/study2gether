@@ -4,7 +4,7 @@ const io = require("socket.io")(server);
 const PORT = process.env.PORT || 5000;
 
 let firsClient = null;
-let firsClient = null;
+let secondClient = null;
 const allClient = [];
 
 app.get("/", (req, res) => {
