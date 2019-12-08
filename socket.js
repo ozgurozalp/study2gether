@@ -16,6 +16,13 @@ io.on("connection", socket => {
       text: data.text
     });
   });
+
+  socket.on("howManyClients", data => {
+    console.log(data);
+    io.emit("clients", {
+      count: io.sockets.clients().length
+    });
+  });
 });
 
 server.listen(PORT, () => console.log(`${PORT} portunda çalışıyorum.`));
