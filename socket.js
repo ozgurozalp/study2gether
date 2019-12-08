@@ -18,11 +18,11 @@ io.on("connection", socket => {
   if (firsClient > -1) allClient.splice(firsClient, 1);
 
   socket.on("broadcast", data => {
-    allClient.forEach((item, index) => {
+    for (let item of allClient) {
       item.emit("text", {
         text: data.text
       });
-    });
+    }
   });
 
   socket.on("howManyClients", data => {
