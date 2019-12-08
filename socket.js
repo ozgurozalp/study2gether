@@ -15,7 +15,7 @@ io.on("connection", socket => {
   allClient.push(socket.id);
 
   let firsClientIndex = allClient.findIndex(id => id == firsClient);
-  if (firsClient > -1) allClient.splice(firsClient, 1);
+  if (firsClientIndex > -1) allClient.splice(firsClientIndex, 1);
 
   socket.on("broadcast", data => {
     for (let item of allClient) {
