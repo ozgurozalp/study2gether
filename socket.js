@@ -3,17 +3,26 @@ const server = require("http").Server(app);
 const io = require("socket.io")(server);
 const PORT = process.env.PORT || 5000;
 
-let firsClient = null;
+let firstClient = null;
 let secondClient = null;
-const allClient = [];
 
 app.get("/", (req, res) => {
   res.send("404");
 });
 
 io.on("connection", socket => {
-  if (socket.client.conn.server.clientsCount == 1) firsClient = socket.id;
+  if (socket.client.conn.server.clientsCount == 1) firstClient = socket.id;
   if (socket.client.conn.server.clientsCount == 2) secondClient = socket.id;
+
+  io.emit("info", {
+    id: socket.id,
+    durum:
+      firstClient == socket.id
+        ? "Bağlanan ilk kişisiniz."
+        : secondClient == socket.id
+        ? "Bağlanan 2. kişisiniz."
+        : "3. ve üstü bağlanan kişisiniz."
+  });
 
   socket.on("broadcast", data => {
     io.to(secondClient).emit("text", {
