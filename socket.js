@@ -14,6 +14,8 @@ socket.on("disconnect", () => kullaniciSayisi--);
 io.on("connection", socket => {
   console.log("sokete bağlananlar var");
 
+  socket.on("connect", () => kullaniciSayisi++);
+  socket.on("disconnect", () => kullaniciSayisi--);
   socket.on("broadcast", data => {
     console.log(data);
     io.emit("text", {
@@ -28,8 +30,5 @@ io.on("connection", socket => {
     });
   });
 });
-
-io.on("connect", () => kullaniciSayisi++);
-io.on("disconnect", () => kullaniciSayisi--);
 
 server.listen(PORT, () => console.log(`${PORT} portunda çalışıyorum.`));
