@@ -5,7 +5,7 @@ const io = require("socket.io")(server);
 const PORT = process.env.PORT || 5000;
 
 // Setup Database
-r.connect({ host: "localhost", port: 28015 }, (err, conn) => {
+r.connect({ host: "localhost", port: PORT }, (err, conn) => {
   if (err) throw err;
   r.db("test")
     .tableList()
