@@ -15,18 +15,10 @@ io.on("connection", socket => {
   if (socket.client.conn.server.clientsCount == 1) firsClient = socket.id;
   if (socket.client.conn.server.clientsCount == 2) secondClient = socket.id;
 
-  allClient.push(socket.id);
-
-  let index = allClient.findIndex(id => id == firsClient);
-
-  if (index > -1) allClient.splice(index, 1);
-
   socket.on("broadcast", data => {
-    for (let item of allClient) {
-      io.to(item).emit("text", {
-        text: data.text
-      });
-    }
+    io.to(secondClient).emit("text", {
+      text: data.text
+    });
   });
 
   socket.on("howManyClients", data => {
