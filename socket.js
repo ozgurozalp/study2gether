@@ -13,9 +13,10 @@ socket.on("disconnect", () => kullaniciSayisi--);
 
 io.on("connection", socket => {
   console.log("sokete bağlananlar var");
+  kullaniciSayisi++;
 
-  socket.on("connect", () => kullaniciSayisi++);
   socket.on("disconnect", () => kullaniciSayisi--);
+
   socket.on("broadcast", data => {
     console.log(data);
     io.emit("text", {
