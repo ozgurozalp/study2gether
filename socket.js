@@ -20,7 +20,8 @@ io.on("connection", socket => {
   socket.on("howManyClients", data => {
     console.log(data);
     io.emit("clients", {
-      count: socket.client.conn.server.clientsCount
+      count: socket.client.conn.server.clientsCount,
+      id: socket.id
     });
   });
 });
