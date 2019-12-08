@@ -5,11 +5,11 @@ const io = require("socket.io")(server);
 const PORT = process.env.PORT || 5000;
 
 // Setup Database
-r.connect({ host: "localhost", port: 28015 }, function(err, conn) {
+r.connect({ host: "localhost", port: 28015 }, (err, conn) => {
   if (err) throw err;
   r.db("test")
     .tableList()
-    .run(conn, function(err, response) {
+    .run(conn, (err, response) => {
       if (response.indexOf("edit") > -1) {
         // do nothing it is created...
         console.log("Table exists, skipping create...");
@@ -24,28 +24,28 @@ r.connect({ host: "localhost", port: 28015 }, function(err, conn) {
     });
 
   // Socket Stuff
-  io.on("connection", function(socket) {
+  io.on("connection", socket => {
     console.log("a user connected");
     socket.on("disconnect", function() {
       console.log("user disconnected");
     });
-    socket.on("document-update", function(msg) {
+    socket.on("document-update", msg => {
       console.log(msg);
       r.table("edit")
         .insert(
           { id: msg.id, value: msg.value, user: msg.user },
           { conflict: "update" }
         )
-        .run(conn, function(err, res) {
+        .run(conn, (err, res) => {
           if (err) throw err;
           //console.log(JSON.stringify(res, null, 2));
         });
     });
     r.table("edit")
       .changes()
-      .run(conn, function(err, cursor) {
+      .run(conn, (err, cursor) => {
         if (err) throw err;
-        cursor.each(function(err, row) {
+        cursor.each((err, row) => {
           if (err) throw err;
           io.emit("doc", row);
         });
@@ -63,11 +63,11 @@ r.connect({ host: "localhost", port: 28015 }, function(err, conn) {
   });
 });
 
-app.get("/", function(req, res) {
+app.get("/", (req, res) => {
   res.send("Özgür Cereni seviyor...");
 });
 
-io.on("connection", function(socket) {
+io.on("connection", socket => {
   console.log("sokete bağlananlar var");
 
   socket.on("broadcast", data => {
