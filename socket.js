@@ -52,7 +52,7 @@ r.connect({ host: "localhost", port: 28015 }, function(err, conn) {
       });
   });
 
-  app.get("/getData/:id", function(req, res, next) {
+  app.get("/getData/:id", (req, res, next) => {
     r.table("edit")
       .get(req.params.id)
       .run(conn, function(err, result) {
