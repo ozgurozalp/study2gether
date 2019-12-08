@@ -14,15 +14,19 @@ io.on("connection", socket => {
   if (socket.client.conn.server.clientsCount == 1) firstClient = socket.id;
   if (socket.client.conn.server.clientsCount == 2) secondClient = socket.id;
 
-  io.emit("info", {
-    id: socket.id,
-    durum:
-      firstClient == socket.id
-        ? "Bağlanan ilk kişisiniz."
-        : secondClient == socket.id
-        ? "Bağlanan 2. kişisiniz."
-        : "3. ve üstü bağlanan kişisiniz."
-  });
+  if (firstClient !== null) {
+    io.to(firstClient).emit("info", {
+      id: socket.id,
+      durum: "Bağlanan 1. kişisiniz."
+    });
+  }
+
+  if (secondClient !== null) {
+    io.to(secondClient).emit("info", {
+      id: socket.id,
+      durum: "Bağlanan 2. kişisiniz."
+    });
+  }
 
   socket.on("broadcast", data => {
     io.to(secondClient).emit("text", {
