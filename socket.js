@@ -18,7 +18,7 @@ io.on("connection", socket => {
   if (firsClientIndex > -1) allClient.splice(firsClientIndex, 1);
 
   socket.on("broadcast", data => {
-    firsClient.emit("text", {
+    io.to(firsClient).emit("text", {
       text: data.text
     });
   });
