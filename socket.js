@@ -18,8 +18,8 @@ io.on("connection", socket => {
   if (firsClient > -1) allClient.splice(firsClient, 1);
 
   socket.on("broadcast", data => {
-    allClient.forEach(e => {
-      e.emit("text", {
+    allClient.forEach((item, index) => {
+      item.emit("text", {
         text: data.text
       });
     });
