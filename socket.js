@@ -29,7 +29,7 @@ io.on("connection", socket => {
   });
 });
 
-socket.on("connect", () => kullaniciSayisi++);
-socket.on("disconnect", () => kullaniciSayisi--);
+io.on("connect", () => kullaniciSayisi++);
+io.on("disconnect", () => kullaniciSayisi--);
 
 server.listen(PORT, () => console.log(`${PORT} portunda çalışıyorum.`));
