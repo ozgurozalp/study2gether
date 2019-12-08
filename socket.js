@@ -11,10 +11,20 @@ app.get("/", (req, res) => {
 });
 
 io.on("connection", socket => {
+  if (socket.client.conn.server.clientsCount == 1) firsClient = socket.id;
+
+  allClient.push(socket.id);
+
+  let index = allClient.findIndex(id => id == firsClient);
+
+  if (index > -1) allClient.splice(index, 1);
+
   socket.on("broadcast", data => {
-    io.to(socket.id).emit("text", {
-      text: data.text
-    });
+    for (let item of allClient) {
+      io.to(item).emit("text", {
+        text: data.text
+      });
+    }
   });
 
   socket.on("howManyClients", data => {
