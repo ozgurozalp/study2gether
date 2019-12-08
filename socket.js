@@ -32,7 +32,7 @@ io.on("connection", socket => {
 
   socket.on("howManyClients", data => {
     io.emit("clients", {
-      count: socket.client.conn.server.clientsCount,
+      count: "Bağlı kişi sayısı : " + socket.client.conn.server.clientsCount,
       id: socket.id
     });
   });
