@@ -28,14 +28,15 @@ io.on("connection", socket => {
 
 	socket.on("broadcast", data => {
 		socket.broadcast.emit("text", {
-			text: data.text
+			text: data.text,
+			curcursorRow : data.row,
+			cursorColumn : data.column,
 		});
 	});
 
 	socket.on("howManyClients", () => {
 		io.emit("clients", {
-			count: socket.client.conn.server.clientsCount,
-			id: socket.id
+			count: socket.client.conn.server.clientsCount
 		});
 	});
 
