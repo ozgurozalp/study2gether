@@ -3,16 +3,10 @@ const server = require("http").Server(app);
 const io = require("socket.io")(server);
 const PORT = process.env.PORT || 5000;
 
-let firstClient = null;
-let secondClient = null;
-
 const allClients = [];
 
-app.get("/", (req, res) => {
-	res.send("Özgür ÖZALP");
-});
-
 io.on("connection", socket => {
+
 	allClients.push({
 		id : socket.id,
 		userName : null
@@ -22,7 +16,10 @@ io.on("connection", socket => {
 		let indexNo = allClients.findIndex(client => client.id == socket.id);
 		if (indexNo > -1) {
 			allClients[indexNo].userName = userName;
-			socket.emit("welcome", `Selam, Hoşgeldin ${userName} - Bağlanan ${indexNo + 1}. kişisin.`);
+			socket.emit("welcome", {
+				userName,
+				row : indexNo + 1
+			});
 		}
 	});
 
@@ -46,7 +43,9 @@ io.on("connection", socket => {
 		if (indexNo > -1) allClients.splice(indexNo, 1);
 	});
 
-
+	app.get("/", (req, res) => {
+		res.send("Özgür ÖZALP");
+	});
 
 });
 
