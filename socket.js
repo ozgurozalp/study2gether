@@ -29,7 +29,7 @@ io.on("connection", socket => {
 	socket.on("broadcast", data => {
 		socket.broadcast.emit("text", {
 			text: data.text,
-			curcursorRow : data.row,
+			cursorRow : data.row,
 			cursorColumn : data.column,
 		});
 	});
