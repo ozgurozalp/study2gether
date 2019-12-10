@@ -23,7 +23,6 @@ io.on("connection", socket => {
 		}
 	});
 
-
 	socket.on("broadcast", data => {
 		socket.broadcast.emit("text", {
 			text: data.text
@@ -37,7 +36,6 @@ io.on("connection", socket => {
 		});
 	});
 
-
 	socket.on("disconnect", () => {
 		let indexNo = allClients.findIndex(client => client.id == socket.id);
 		if (indexNo > -1) allClients.splice(indexNo, 1);
@@ -45,6 +43,11 @@ io.on("connection", socket => {
 
 	app.get("/", (req, res) => {
 		res.send("Özgür ÖZALP");
+	});
+	app.get("/post", (req, res) => {
+		res.json({
+			count: socket.client.conn.server.clientsCount
+		});
 	});
 
 });
