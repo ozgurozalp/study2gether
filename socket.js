@@ -22,7 +22,7 @@ io.on("connection", socket => {
 		let indexNo = allClients.findIndex(client => client.id == socket.id);
 		if (indexNo > -1) {
 			allClients[indexNo].userName = userName;
-			socket.emit("welcome", `Selam, Hoşgeldin #${socket.id}-${userName} - Bağlanan ${indexNo}. kişisin.`);
+			socket.emit("welcome", `Selam, Hoşgeldin g${userName} - Bağlanan ${indexNo + 1}. kişisin.`);
 		}
 	});
 
