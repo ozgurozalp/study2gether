@@ -22,13 +22,13 @@ io.on("connection", socket => {
 		let indexNo = allClients.findIndex(client => client.id == socket.id);
 		if (indexNo > -1) {
 			allClients[indexNo].userName = userName;
-			socket.emit("welcome", `Selam, Hoşgeldin g${userName} - Bağlanan ${indexNo + 1}. kişisin.`);
+			socket.emit("welcome", `Selam, Hoşgeldin ${userName} - Bağlanan ${indexNo + 1}. kişisin.`);
 		}
 	});
 
 
 	socket.on("broadcast", data => {
-		io.to(secondClient).emit("text", {
+		socket.broadcast.emit("text", {
 			text: data.text
 		});
 	});
@@ -44,9 +44,6 @@ io.on("connection", socket => {
 	socket.on("disconnect", () => {
 		let indexNo = allClients.findIndex(client => client.id == socket.id);
 		if (indexNo > -1) allClients.splice(indexNo, 1);
-
-		socket.broadcast.emit("all", allClients);
-
 	});
 
 
