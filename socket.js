@@ -9,7 +9,7 @@ let secondClient = null;
 const allClients = [];
 
 app.get("/", (req, res) => {
-	res.send("404");
+	res.send("Özgür ÖZALP");
 });
 
 io.on("connection", socket => {
@@ -22,7 +22,7 @@ io.on("connection", socket => {
 		let indexNo = allClients.findIndex(client => client.id == socket.id);
 		if (indexNo > -1) {
 			allClients[indexNo].userName = userName;
-			socket.emit("welcome", `Selam, Hoşgeldin #${userName} - Bağlanan ${indexNo+1}. kişisin.`);
+			socket.emit("welcome", `Selam, Hoşgeldin #${userName} - Bağlanan ${indexNo}. kişisin.`);
 		}
 	});
 
