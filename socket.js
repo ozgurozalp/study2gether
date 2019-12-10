@@ -44,7 +44,7 @@ io.on("connection", socket => {
 	app.get("/", (req, res) => {
 		res.send("Özgür ÖZALP");
 	});
-	app.get("/post", (req, res) => {
+	app.get("/client-count", (req, res) => {
 		res.json({
 			count: socket.client.conn.server.clientsCount
 		});
