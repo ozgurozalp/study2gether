@@ -35,7 +35,7 @@ io.on("connection", socket => {
 	});
 
 	socket.on("howManyClients", () => {
-		io.emit("clients", {
+		socket.emit("clients", {
 			count: socket.client.conn.server.clientsCount
 		});
 	});
