@@ -46,7 +46,7 @@ io.on("connection", socket => {
 	});
 
 	app.get("/", (req, res) => {
-		res.setHeader("Set-Cookie", "HttpOnly;Secure;SameSite=Strict");
+		res.setHeader("Set-Cookie", "HttpOnly;Secure;SameSite=Secure");
 		res.send("Özgür ÖZALP");
 	});
 	app.get("/client-count", (req, res) => {
