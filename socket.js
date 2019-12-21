@@ -54,7 +54,7 @@ io.on("connection", socket => {
 	socket.on("broadcast", data => {
 		let indexNo = allClients.findIndex(client => client.id == socket.id);
 		if (indexNo > -1) {
-			socket.emit("text", {
+			io.to(allClients[indexNo].roomName).emit("text", {
 				text: data.text,
 				cursorRow : data.cursorRow,
 				cursorColumn : data.cursorColumn,
