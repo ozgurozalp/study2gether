@@ -10,6 +10,10 @@ app.use(cors());
 const allClients = [];
 const rooms = {};
 
+app.get("/", (req, res) => {
+	res.send("Özgür ÖZALP");
+});
+
 io.on("connection", socket => {
 
 	allClients.push({
@@ -70,9 +74,7 @@ io.on("connection", socket => {
 		});
 	});
 
-	app.get("/", (req, res) => {
-		res.send("Özgür ÖZALP");
-	});
+
 });
 
 server.listen(PORT, () => console.log(`${PORT} portunda çalışıyorum.`));
