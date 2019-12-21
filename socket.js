@@ -31,7 +31,8 @@ io.on("connection", socket => {
 		}
 	});
 
-	io.to('1').emit('roomTest');
+	io.to('1').emit('roomTest', 1);
+	io.to('2').emit('roomTest', 2);
 
 
 	socket.on("broadcast", data => {
