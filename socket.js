@@ -22,6 +22,7 @@ io.on("connection", socket => {
 		if (indexNo > -1) {
 			allClients[indexNo].userName = data.userName;
 			allClients[indexNo].roomId = data.codeId;
+			socket.join(data.codeId);
 			socket.emit("welcome", {
 				userName : data.userName,
 				row : indexNo + 1,
@@ -29,6 +30,9 @@ io.on("connection", socket => {
 			});
 		}
 	});
+
+	io.to('1').emit('roomTest');
+
 
 	socket.on("broadcast", data => {
 		socket.broadcast.emit("text", {
