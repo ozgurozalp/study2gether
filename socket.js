@@ -56,6 +56,7 @@ io.on("connection", socket => {
 		if (indexNo > -1) {
 			let newClients = allClients.filter(client => client.id != socket.id);
 			newClients.forEach(client => {
+				console.log(client.roomName)
 				io.to(client.roomName).emit("text", {
 					text: data.text,
 					cursorRow : data.cursorRow,
