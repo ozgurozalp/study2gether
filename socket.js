@@ -54,11 +54,15 @@ io.on("connection", socket => {
 	socket.on("broadcast", data => {
 		let indexNo = allClients.findIndex(client => client.id == socket.id);
 		if (indexNo > -1) {
-			io.to(allClients[indexNo].roomName).emit("text", {
-				text: data.text,
-				cursorRow : data.cursorRow,
-				cursorColumn : data.cursorColumn,
+			let newClients = allClients.filter(client => client.id != socket.id);
+			newClients.forEach(client => {
+				io.to(client.roomName).emit("text", {
+					text: data.text,
+					cursorRow : data.cursorRow,
+					cursorColumn : data.cursorColumn,
+				});
 			});
+
 		}
 
 	});
