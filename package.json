@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axois": "0.0.1-security",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "rethinkdb": "^2.3.3",

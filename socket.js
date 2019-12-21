@@ -2,6 +2,7 @@ const app = require("express")();
 const cors = require("cors");
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
+const axios = require('axios');
 const PORT = process.env.PORT || 5000;
 
 app.use(cors());
@@ -21,8 +22,20 @@ io.on("connection", socket => {
 		let indexNo = allClients.findIndex(client => client.id == socket.id);
 		if (indexNo > -1) {
 			allClients[indexNo].userName = data.userName;
-			allClients[indexNo].roomName = `room#${data.codeId}`;
-			socket.join(allClients[indexNo].roomName);
+
+
+			axios.get(`https://study2gether.online/room/${data.codeId}`).then(response => {
+				console.log(response);
+				if (response.status) {
+					allClients[indexNo].roomName = `room#${data.codeId}`;
+					socket.join(allClients[indexNo].roomName);
+				}
+			}).catch(error => {
+				console.log(error);
+			});
+
+
+
 			socket.emit("welcome", {
 				userName : data.userName,
 				row : indexNo + 1,
@@ -30,10 +43,6 @@ io.on("connection", socket => {
 			});
 		}
 	});
-
-	io.to('1').emit('roomTest', 1);
-	io.to('12').emit('roomTest', 12);
-
 
 	socket.on("broadcast", data => {
 		socket.broadcast.emit("text", {
