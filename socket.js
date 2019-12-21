@@ -23,7 +23,7 @@ io.on("connection", socket => {
 			allClients[indexNo].userName = data.userName;
 			allClients[indexNo].roomId = data.codeId;
 			socket.emit("welcome", {
-				userName,
+				userName : data.userName,
 				row : indexNo + 1,
 				info : allClients[indexNo]
 			});
