@@ -8,10 +8,16 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 
 const allClients = [];
-const rooms = {};
+
 
 app.get("/", (req, res) => {
 	res.send("Özgür ÖZALP");
+});
+
+app.get("/client-count", (req, res) => {
+	res.json({
+		count: socket.client.conn.server.clientsCount
+	});
 });
 
 io.on("connection", socket => {
@@ -48,7 +54,7 @@ io.on("connection", socket => {
 	socket.on("broadcast", data => {
 		let indexNo = allClients.findIndex(client => client.id == socket.id);
 		if (indexNo > -1) {
-			io.to(allClients[indexNo].roomName).emit("text", {
+			socket.emit("text", {
 				text: data.text,
 				cursorRow : data.cursorRow,
 				cursorColumn : data.cursorColumn,
@@ -56,13 +62,11 @@ io.on("connection", socket => {
 		}
 
 	});
-
 	socket.on("howManyClients", () => {
 		socket.emit("clients", {
 			count: socket.client.conn.server.clientsCount
 		});
 	});
-
 	socket.on("disconnect", () => {
 		let indexNo = allClients.findIndex(client => client.id == socket.id);
 		if (indexNo > -1) {
@@ -70,14 +74,6 @@ io.on("connection", socket => {
 			allClients.splice(indexNo, 1);
 		}
 	});
-
-
-	app.get("/client-count", (req, res) => {
-		res.json({
-			count: socket.client.conn.server.clientsCount
-		});
-	});
-
 
 });
 
