@@ -21,13 +21,11 @@ app.get("/client-count", (req, res) => {
 });
 
 io.on("connection", socket => {
-
 	allClients.push({
 		id : socket.id,
 		userName : null,
 		roomName : null
 	});
-
 	socket.on("add-user", data => {
 		let indexNo = allClients.findIndex(client => client.id == socket.id);
 		if (indexNo > -1) {
@@ -54,9 +52,9 @@ io.on("connection", socket => {
 	socket.on("broadcast", data => {
 		let indexNo = allClients.findIndex(client => client.id == socket.id);
 		if (indexNo > -1) {
-			let newClients = allClients.filter(client => client.id != socket.id);
+			let newClients = allClients.filter(client => client.roomName == allClients[indexNo].roomName);
+			newClients = newClients.filter(client => client.id != socket.id);
 			newClients.forEach(client => {
-				console.log(client.roomName)
 				io.to(client.roomName).emit("text", {
 					text: data.text,
 					cursorRow : data.cursorRow,
@@ -79,7 +77,6 @@ io.on("connection", socket => {
 			allClients.splice(indexNo, 1);
 		}
 	});
-
 });
 
 server.listen(PORT, () => console.log(`${PORT} portunda çalışıyorum.`));
