@@ -32,7 +32,7 @@ io.on("connection", socket => {
 	});
 
 	io.to('1').emit('roomTest', 1);
-	io.to('2').emit('roomTest', 2);
+	io.to('12').emit('roomTest', 12);
 
 
 	socket.on("broadcast", data => {
