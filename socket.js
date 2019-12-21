@@ -30,6 +30,7 @@ io.on("connection", socket => {
 			fetch(`https://study2gether.online/room/${data.codeId}`)
 				.then(res => res.json())
 				.then(response => {
+					console.log(response);
 					if (response.status) {
 						allClients[indexNo].roomName = `room#${data.codeId}`;
 						socket.join(allClients[indexNo].roomName);
