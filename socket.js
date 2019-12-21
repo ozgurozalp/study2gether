@@ -34,15 +34,15 @@ io.on("connection", socket => {
 					if (response.status) {
 						allClients[indexNo].roomName = `room#${data.codeId}`;
 						socket.join(allClients[indexNo].roomName);
+
+						io.to(allClients[indexNo].roomName).emit("welcome", {
+							userName : data.userName,
+							row : indexNo + 1,
+							roomName : allClients[indexNo].roomName
+						});
 					}
 				})
 				.catch(error => console.log(error));
-
-			socket.emit("welcome", {
-				userName : data.userName,
-				row : indexNo + 1,
-				roomName : allClients[indexNo].roomName
-			});
 		}
 	});
 
