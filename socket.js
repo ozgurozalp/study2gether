@@ -55,7 +55,7 @@ io.on("connection", socket => {
 			let newClients = allClients.filter(client => client.roomName == allClients[indexNo].roomName);
 			newClients = newClients.filter(client => client.id != socket.id);
 			newClients.forEach(client => {
-				io.to(client.roomName).emit("text", {
+				io.to(client.id).emit("text", {
 					text: data.text,
 					cursorRow : data.cursorRow,
 					cursorColumn : data.cursorColumn,
