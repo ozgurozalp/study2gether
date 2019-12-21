@@ -45,13 +45,16 @@ io.on("connection", socket => {
 				.catch(error => console.log(error));
 		}
 	});
-
 	socket.on("broadcast", data => {
-		socket.broadcast.emit("text", {
-			text: data.text,
-			cursorRow : data.cursorRow,
-			cursorColumn : data.cursorColumn,
-		});
+		let indexNo = allClients.findIndex(client => client.id == socket.id);
+		if (indexNo > -1) {
+			io.to(allClients[indexNo].roomName).emit("text", {
+				text: data.text,
+				cursorRow : data.cursorRow,
+				cursorColumn : data.cursorColumn,
+			});
+		}
+
 	});
 
 	socket.on("howManyClients", () => {
