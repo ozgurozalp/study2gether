@@ -14,19 +14,19 @@ io.on("connection", socket => {
 	allClients.push({
 		id : socket.id,
 		userName : null,
-		roomId : null
+		roomName : null
 	});
 
 	socket.on("add-user", data => {
 		let indexNo = allClients.findIndex(client => client.id == socket.id);
 		if (indexNo > -1) {
 			allClients[indexNo].userName = data.userName;
-			allClients[indexNo].roomId = data.codeId;
-			socket.join(data.codeId);
+			allClients[indexNo].roomName = `room#${data.codeId}`;
+			socket.join(allClients[indexNo].roomName);
 			socket.emit("welcome", {
 				userName : data.userName,
 				row : indexNo + 1,
-				info : allClients[indexNo]
+				roomName : allClients[indexNo].roomName
 			});
 		}
 	});
@@ -51,13 +51,12 @@ io.on("connection", socket => {
 
 	socket.on("disconnect", () => {
 		let indexNo = allClients.findIndex(client => client.id == socket.id);
-		if (indexNo > -1)
+		if (indexNo > -1) {
+			socket.leave(allClients[indexNo].roomName);
 			allClients.splice(indexNo, 1);
+		}
 	});
 
-	app.get("/", (req, res) => {
-		res.send("Özgür ÖZALP");
-	});
 
 	app.get("/client-count", (req, res) => {
 		res.json({
@@ -65,6 +64,9 @@ io.on("connection", socket => {
 		});
 	});
 
+	app.get("/", (req, res) => {
+		res.send("Özgür ÖZALP");
+	});
 });
 
 server.listen(PORT, () => console.log(`${PORT} portunda çalışıyorum.`));
