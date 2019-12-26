@@ -24,12 +24,23 @@ app.get('/eczane/:ad', (req, res) => {
 
 	db.query(`SELECT * FROM eczane WHERE eczane_ad LIKE '%${req.params.ad}%'`, (error, result, fields) => {
 		if (error) return console.log(error);
-		res.send(result);
+		res.json(result);
 	});
 
 });
 app.post('/register', (req, res) => {
-	res.json({ad : "ozgur"});
+	const {email, pass} = req.body;
+	let insertQuery = 'INSERT INTO ?? (??,??) VALUES (?,?)';
+	let query = mysql.format(insertQuery,["kullanici","kullanici_email","kullanici_sifre",email,pass]);
+	let data = {};
+	db.query(query, (error, result, fields) => {
+		if(result.insertId > 0){
+			data.status = true;
+		} else {
+			data.status = false;
+		}
+		res.json(data);
+	});
 });
 app.post('/login', (req, res) => {
 	res.json({ad : "ozalp"});
