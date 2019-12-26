@@ -31,7 +31,7 @@ app.get('/eczane/:ad', (req, res) => {
 app.post('/register', (req, res) => {
 	console.log(req.body);
 	let insertQuery = 'INSERT INTO ?? (??,??) VALUES (?,?)';
-	let query = mysql.format(insertQuery,["kullanici","kullanici_email","kullanici_sifre",email,pass]);
+	let query = mysql.format(insertQuery,["kullanici","kullanici_email","kullanici_sifre","s","pass"]);
 	let data = {};
 	db.query(query, (error, result, fields) => {
 		if(result.insertId > 0){
