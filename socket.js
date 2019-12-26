@@ -28,6 +28,7 @@ app.get('/eczane/:ad', (req, res) => {
 	});
 
 });
+
 app.get('/register/:email/:pass', (req, res) => {
 	let {email, pass} = req.params;
 	let sql = `INSERT INTO kullanici (kullanici_email, kullanici_sifre) VALUES ('${email}', '${pass}')`;
@@ -36,9 +37,16 @@ app.get('/register/:email/:pass', (req, res) => {
 		res.json({status : true});
 	});
 });
-app.post('/login', (req, res) => {
-	res.json({ad : "ozalp"});
+app.get('/login/:email/:pass', (req, res) => {
+	let {email, pass} = req.params;
+	let sql = `SELECT kullanici_email, kullanici_sifre from kullanici WHERE kullanici_email = '${email}' AND kullanici_sifre = '${pass}'`;
+	db.query(sql, (err, result) => {
+		if (err) return console.log(err);
+		res.json({status : true});
+	});
 });
+
+
 
 const allClients = [];
 
