@@ -28,9 +28,9 @@ app.get('/eczane/:ad', (req, res) => {
 	});
 
 });
-app.get('/register/:email/:sifre', (req, res) => {
+app.get('/register/:email/:pass', (req, res) => {
 	console.log(req.params);
-	let insertQuery = 'INSERT INTO ?? (??,??) VALUES (?,?)';
+	/*let insertQuery = 'INSERT INTO ?? (??,??) VALUES (?,?)';
 	let query = mysql.format(insertQuery,["kullanici","kullanici_email","kullanici_sifre","s","pass"]);
 	let data = {};
 	db.query(query, (error, result, fields) => {
@@ -40,7 +40,7 @@ app.get('/register/:email/:sifre', (req, res) => {
 			data.status = false;
 		}
 		res.json(data);
-	});
+	});*/
 });
 app.post('/login', (req, res) => {
 	res.json({ad : "ozalp"});
