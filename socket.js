@@ -28,8 +28,8 @@ app.get('/eczane/:ad', (req, res) => {
 	});
 
 });
-app.post('/register', (req, res) => {
-	console.log(req.body);
+app.get('/register/:email/:sifre', (req, res) => {
+	console.log(req.params);
 	let insertQuery = 'INSERT INTO ?? (??,??) VALUES (?,?)';
 	let query = mysql.format(insertQuery,["kullanici","kullanici_email","kullanici_sifre","s","pass"]);
 	let data = {};
