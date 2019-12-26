@@ -29,7 +29,7 @@ app.get('/eczane/:ad', (req, res) => {
 
 });
 app.post('/register', (req, res) => {
-	const {email, pass} = req.body;
+	console.log(req.body);
 	let insertQuery = 'INSERT INTO ?? (??,??) VALUES (?,?)';
 	let query = mysql.format(insertQuery,["kullanici","kullanici_email","kullanici_sifre",email,pass]);
 	let data = {};
