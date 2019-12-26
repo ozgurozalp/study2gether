@@ -21,8 +21,8 @@ db.connect(err => {
 app.use(cors());
 
 app.get('/eczane/:ad', (req, res) => {
-
-	db.query(`SELECT * FROM eczane WHERE eczane_ad LIKE '%${req.params.ad}%'`, (error, result, fields) => {
+	let sql = `SELECT eczane.eczane_ad, ilac.ilac_ad, tablo_stok.adet FROM tablo_stok INNER JOIN eczane on eczane.eczane_id = tablo_stok.eczane_id INNER JOIN ilac on tablo_stok.ilac_id = ilac.ilac_id WHERE ilac.ilac_ad LIKE '%${req.params.ad}%'`;
+	db.query(sql, (error, result, fields) => {
 		if (error) return console.log(error);
 		res.json(result);
 	});
