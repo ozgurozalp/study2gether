@@ -5,7 +5,32 @@ const io = require("socket.io")(server);
 const fetch = require('node-fetch');
 const PORT = process.env.PORT || 5000;
 
+const db = mysql.createConnection({
+	host: "remotemysql.com",
+	user: "R8nGjvFVRF",
+	password: "0avGPlzMQ1",
+	database: "R8nGjvFVRF"
+});
+db.connect(err => {
+	if (err) return console.log(err);
+	console.log("Connected..");
+});
+
 app.use(cors());
+
+app.get('/eczane/:ad', (req, res) => {
+	db.query(`SELECT * FROM eczane WHERE eczane_ad LIKE '%${req.params.ad}%'`, (error, result, fields) => {
+		if (error) return console.log(error);
+		res.send(result);
+		console.log(result.length)
+	});
+});
+app.post('/register', (req, res) => {
+	res.json({ad : "ozgur"});
+});
+app.post('/login', (req, res) => {
+	res.json({ad : "ozalp"});
+});
 
 const allClients = [];
 
@@ -21,11 +46,13 @@ app.get("/client-count", (req, res) => {
 });
 
 io.on("connection", socket => {
+
 	allClients.push({
 		id : socket.id,
 		userName : null,
 		roomName : null
 	});
+
 	socket.on("add-user", data => {
 		let indexNo = allClients.findIndex(client => client.id == socket.id);
 		if (indexNo > -1) {
@@ -49,6 +76,7 @@ io.on("connection", socket => {
 				.catch(error => console.log(error));
 		}
 	});
+
 	socket.on("broadcast", data => {
 		let indexNo = allClients.findIndex(client => client.id == socket.id);
 		if (indexNo > -1) {
