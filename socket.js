@@ -29,18 +29,19 @@ app.get('/eczane/:ad', (req, res) => {
 
 });
 app.get('/register/:email/:pass', (req, res) => {
-	console.log(req.params);
-	/*let insertQuery = 'INSERT INTO ?? (??,??) VALUES (?,?)';
-	let query = mysql.format(insertQuery,["kullanici","kullanici_email","kullanici_sifre","s","pass"]);
+	let {email, pass} = req.params;
 	let data = {};
-	db.query(query, (error, result, fields) => {
+	let sql = "INSERT INTO ?? SET kullanici_email = ?, kullanici_sifre = ?";
+	let inserts = ['kullanici', email, pass];
+	sql = mysql.format(sql, inserts);
+	db.query(sql, (error, result, fields) => {
 		if(result.insertId > 0){
 			data.status = true;
 		} else {
 			data.status = false;
 		}
 		res.json(data);
-	});*/
+	});
 });
 app.post('/login', (req, res) => {
 	res.json({ad : "ozalp"});
