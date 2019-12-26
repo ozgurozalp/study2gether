@@ -35,12 +35,7 @@ app.get('/register/:email/:pass', (req, res) => {
 	let inserts = ['kullanici', email, pass];
 	sql = mysql.format(sql, inserts);
 	db.query(sql, (error, result, fields) => {
-		if(result.insertId > 0){
-			data.status = true;
-		} else {
-			data.status = false;
-		}
-		res.json(data);
+		res.json({status : true});
 	});
 });
 app.post('/login', (req, res) => {
