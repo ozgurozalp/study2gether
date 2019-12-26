@@ -30,11 +30,9 @@ app.get('/eczane/:ad', (req, res) => {
 });
 app.get('/register/:email/:pass', (req, res) => {
 	let {email, pass} = req.params;
-	let data = {};
-	let sql = "INSERT INTO ?? SET kullanici_email = ?, kullanici_sifre = ?";
-	let inserts = ['kullanici', email, pass];
-	sql = mysql.format(sql, inserts);
-	db.query(sql, (error, result, fields) => {
+	let sql = `INSERT INTO kullanici (kullanici_email, kullanici_sifre) VALUES ('${email}', '${pass}')`;
+	db.query(sql, (err, result) => {
+		if (err) return console.log(err);
 		res.json({status : true});
 	});
 });
