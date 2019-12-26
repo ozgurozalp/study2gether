@@ -25,7 +25,6 @@ app.get('/eczane/:ad', (req, res) => {
 	db.query(`SELECT * FROM eczane WHERE eczane_ad LIKE '%${req.params.ad}%'`, (error, result, fields) => {
 		if (error) return console.log(error);
 		res.send(result);
-		db.destroy();
 	});
 
 });
