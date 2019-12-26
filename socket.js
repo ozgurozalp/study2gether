@@ -12,19 +12,21 @@ const db = mysql.createConnection({
 	password: "0avGPlzMQ1",
 	database: "R8nGjvFVRF"
 });
-db.connect(err => {
-	if (err) return console.log(err);
-	console.log("Connected..");
-});
+
 
 app.use(cors());
 
 app.get('/eczane/:ad', (req, res) => {
+	db.connect(err => {
+		if (err) return console.log(err);
+		console.log("Connected..");
+	});
 	db.query(`SELECT * FROM eczane WHERE eczane_ad LIKE '%${req.params.ad}%'`, (error, result, fields) => {
 		if (error) return console.log(error);
 		res.send(result);
 		console.log(result.length)
 	});
+	db.destroy();
 });
 app.post('/register', (req, res) => {
 	res.json({ad : "ozgur"});
