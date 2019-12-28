@@ -32,7 +32,7 @@ db.connect(err => {
 app.get('/eczane/:ad', (req, res) => {
 	let sql = `SELECT eczane.eczane_ad, ilac.ilac_ad, eczane.eczane_adres, eczane.eczane_tel_no,
  		tablo_stok.adet FROM tablo_stok INNER JOIN eczane on eczane.eczane_id = tablo_stok.eczane_id 
-	 	INNER JOIN ilac on tablo_stok.ilac_id = ilac.ilac_id WHERE ilac.ilac_ad LIKE '%${req.params.ad}%'`;
+	 	INNER JOIN ilac on tablo_stok.ilac_id = ilac.ilac_id WHERE ilac.ilac_ad LIKE '%${req.params.ad}%' ORDER BY tablo_stok.adet DESC`;
 	db.query(sql, (error, result, fields) => {
 		if (error) return console.log(error);
 		res.json(result);
@@ -70,12 +70,6 @@ const allClients = [];
 
 app.get("/", (req, res) => {
 	res.send("Özgür ÖZALP");
-});
-
-app.get("/client-count", (req, res) => {
-	res.json({
-		count: socket.client.conn.server.clientsCount
-	});
 });
 
 io.on("connection", socket => {
