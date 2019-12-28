@@ -10,16 +10,17 @@ const PORT = process.env.PORT || 5000; // sunucunun hangi portta çalışacağı
 app.use(cors());
 
 // veritabanına bağlanmak için sunucu bilgilerini girdik
-const db = mysql.createConnection({
-	host: "remotemysql.com",
-	user: "R8nGjvFVRF",
-	password: "0avGPlzMQ1",
-	database: "R8nGjvFVRF"
-});
+
 
 
 // ilaç sorgulama
 app.get('/eczane/:ad', (req, res) => {
+	const db = mysql.createConnection({
+		host: "remotemysql.com",
+		user: "R8nGjvFVRF",
+		password: "0avGPlzMQ1",
+		database: "R8nGjvFVRF"
+	});
 	db.connect();
 	let sql = `SELECT eczane.eczane_ad, ilac.ilac_ad, eczane.eczane_adres, eczane.eczane_tel_no,
  		tablo_stok.adet FROM tablo_stok INNER JOIN eczane on eczane.eczane_id = tablo_stok.eczane_id 
@@ -36,6 +37,12 @@ app.get('/eczane/:ad', (req, res) => {
 
 // Kayıt olma
 app.get('/register/:email/:pass', (req, res) => {
+	const db = mysql.createConnection({
+		host: "remotemysql.com",
+		user: "R8nGjvFVRF",
+		password: "0avGPlzMQ1",
+		database: "R8nGjvFVRF"
+	});
 	db.connect();
 
 	let {email, pass} = req.params;
@@ -52,6 +59,12 @@ app.get('/register/:email/:pass', (req, res) => {
 
 // giriş yapma
 app.get('/login/:email/:pass', (req, res) => {
+	const db = mysql.createConnection({
+		host: "remotemysql.com",
+		user: "R8nGjvFVRF",
+		password: "0avGPlzMQ1",
+		database: "R8nGjvFVRF"
+	});
 	db.connect();
 	let {email, pass} = req.params;
 	let sql = `SELECT kullanici_email, kullanici_sifre from kullanici WHERE kullanici_email = '${email}' AND kullanici_sifre = '${pass}'`;
