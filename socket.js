@@ -17,45 +17,43 @@ const db = mysql.createConnection({
 	database: "R8nGjvFVRF"
 });
 
-function connect() {
-	// veritabanına bağlantıyı başlatıyor
-	db.connect(err => {
-		if (err)
-			console.log(err);
-		else
-			console.log("Connected..");
-	});
-}
-
-connect();
-
-db.on('error', () => connect());
-
 
 // ilaç sorgulama
 app.get('/eczane/:ad', (req, res) => {
+	db.connect();
 	let sql = `SELECT eczane.eczane_ad, ilac.ilac_ad, eczane.eczane_adres, eczane.eczane_tel_no,
- 		tablo_stok.adet FROM tablo_stok INNER JOIN eczane on eczane.eczane_id = tablo_stok.eczane_id 
-	 	INNER JOIN ilac on tablo_stok.ilac_id = ilac.ilac_id WHERE ilac.ilac_ad LIKE '%${req.params.ad}%' ORDER BY tablo_stok.adet DESC`;
-	db.query(sql, (error, result, fields) => {
-		if (error) return console.log(error);
-		res.json(result);
-	});
+ 				tablo_stok.adet FROM tablo_stok INNER JOIN eczane on eczane.eczane_id = tablo_stok.eczane_id 
+	 		I	NNER JOIN ilac on tablo_stok.ilac_id = ilac.ilac_id WHERE ilac.ilac_ad LIKE '%${req.params.ad}%' ORDER BY tablo_stok.adet DESC`;
 
+	db.query(sql, (error, result, fields) => {
+		if (error)
+			console.log(error);
+		else
+			res.json(result);
+	});
+	db.end();
 });
 
 // Kayıt olma
 app.get('/register/:email/:pass', (req, res) => {
+	db.connect();
+
 	let {email, pass} = req.params;
 	let sql = `INSERT INTO kullanici (kullanici_email, kullanici_sifre) VALUES ('${email}', '${pass}')`;
 	db.query(sql, (err, result) => {
-		if (err) return console.log(err);
-		res.json({status : true});
+		if (err)
+			console.log(err);
+		else
+			res.json({status : true});
 	});
+
+	db.end();
 });
 
 // giriş yapma
 app.get('/login/:email/:pass', (req, res) => {
+	db.connect();
+
 	let {email, pass} = req.params;
 	let sql = `SELECT kullanici_email, kullanici_sifre from kullanici WHERE kullanici_email = '${email}' AND kullanici_sifre = '${pass}'`;
 	db.query(sql, (err, result) => {
@@ -65,12 +63,13 @@ app.get('/login/:email/:pass', (req, res) => {
 		else
 			res.json({status : false});
 	});
+
+	db.end();
 });
 
-//
+
 
 const allClients = [];
-
 
 app.get("/", (req, res) => {
 	res.send("Özgür ÖZALP");
