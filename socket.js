@@ -17,15 +17,19 @@ const db = mysql.createConnection({
 	database: "R8nGjvFVRF"
 });
 
-// veritabanına bağlantıyı başlatıyor
-db.connect(err => {
-	if (err)
-		console.log(err);
-	else
-		console.log("Connected..");
-});
+function connect() {
+	// veritabanına bağlantıyı başlatıyor
+	db.connect(err => {
+		if (err)
+			console.log(err);
+		else
+			console.log("Connected..");
+	});
+}
 
+connect();
 
+db.on('error', connect());
 
 
 // ilaç sorgulama
