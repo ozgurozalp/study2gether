@@ -6,6 +6,8 @@ const server = require("http").Server(app); // sunucuyu kurma
 const io = require("socket.io")(server);
 const fetch = require('node-fetch');
 const PORT = process.env.PORT || 5000; // sunucunun hangi portta çalışacağı
+// cors için kullanıma açma
+app.use(cors());
 
 // veritabanına bağlanmak için sunucu bilgilerini girdik
 const db = mysql.createConnection({
@@ -15,57 +17,41 @@ const db = mysql.createConnection({
 	database: "R8nGjvFVRF"
 });
 
+// veritabanına bağlantıyı başlatıyor
+db.connect(err => {
+	if (err)
+		console.log(err);
+	else
+		console.log("Connected..");
+});
 
-// cors için kullanıma açma
-app.use(cors());
+
 
 
 // ilaç sorgulama
 app.get('/eczane/:ad', (req, res) => {
-	// veritabanına bağlantıyı başlatıyor
-	db.connect(err => {
-		if (err) console.log(err);
-		console.log("Connected..");
-	});
-
-	let sql = `SELECT eczane.eczane_ad, ilac.ilac_ad, eczane.eczane_adres, eczane.eczane_tel_no, 
-		tablo_stok.adet FROM tablo_stok INNER JOIN eczane on eczane.eczane_id = tablo_stok.eczane_id 
-		INNER JOIN ilac on tablo_stok.ilac_id = ilac.ilac_id WHERE ilac.ilac_ad LIKE '%${req.params.ad}%'`;
-
+	let sql = `SELECT eczane.eczane_ad, ilac.ilac_ad, eczane.eczane_adres, eczane.eczane_tel_no,
+ 		tablo_stok.adet FROM tablo_stok INNER JOIN eczane on eczane.eczane_id = tablo_stok.eczane_id 
+	 	INNER JOIN ilac on tablo_stok.ilac_id = ilac.ilac_id WHERE ilac.ilac_ad LIKE '%${req.params.ad}%'`;
 	db.query(sql, (error, result, fields) => {
 		if (error) return console.log(error);
 		res.json(result);
 	});
-	db.destroy();
 
 });
 
-//hizir.ozgurozalp.com/register/ashjkjadda/sdshjkahda
 // Kayıt olma
 app.get('/register/:email/:pass', (req, res) => {
-	// veritabanına bağlantıyı başlatıyor
-	db.connect(err => {
-		if (err) console.log(err);
-		console.log("Connected..");
-	});
-
 	let {email, pass} = req.params;
 	let sql = `INSERT INTO kullanici (kullanici_email, kullanici_sifre) VALUES ('${email}', '${pass}')`;
 	db.query(sql, (err, result) => {
 		if (err) return console.log(err);
 		res.json({status : true});
 	});
-	db.destroy();
 });
 
 // giriş yapma
 app.get('/login/:email/:pass', (req, res) => {
-	// veritabanına bağlantıyı başlatıyor
-	db.connect(err => {
-		if (err) console.log(err);
-		console.log("Connected..");
-	});
-
 	let {email, pass} = req.params;
 	let sql = `SELECT kullanici_email, kullanici_sifre from kullanici WHERE kullanici_email = '${email}' AND kullanici_sifre = '${pass}'`;
 	db.query(sql, (err, result) => {
@@ -75,7 +61,6 @@ app.get('/login/:email/:pass', (req, res) => {
 		else
 			res.json({status : false});
 	});
-	db.destroy();
 });
 
 //
