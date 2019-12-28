@@ -22,8 +22,8 @@ const db = mysql.createConnection({
 app.get('/eczane/:ad', (req, res) => {
 	db.connect();
 	let sql = `SELECT eczane.eczane_ad, ilac.ilac_ad, eczane.eczane_adres, eczane.eczane_tel_no,
- 				tablo_stok.adet FROM tablo_stok INNER JOIN eczane on eczane.eczane_id = tablo_stok.eczane_id 
-	 		I	NNER JOIN ilac on tablo_stok.ilac_id = ilac.ilac_id WHERE ilac.ilac_ad LIKE '%${req.params.ad}%' ORDER BY tablo_stok.adet DESC`;
+ 		tablo_stok.adet FROM tablo_stok INNER JOIN eczane on eczane.eczane_id = tablo_stok.eczane_id 
+	 	INNER JOIN ilac on tablo_stok.ilac_id = ilac.ilac_id WHERE ilac.ilac_ad LIKE '%${req.params.ad}%' ORDER BY tablo_stok.adet DESC`;
 
 	db.query(sql, (error, result, fields) => {
 		if (error)
@@ -53,7 +53,6 @@ app.get('/register/:email/:pass', (req, res) => {
 // giriş yapma
 app.get('/login/:email/:pass', (req, res) => {
 	db.connect();
-
 	let {email, pass} = req.params;
 	let sql = `SELECT kullanici_email, kullanici_sifre from kullanici WHERE kullanici_email = '${email}' AND kullanici_sifre = '${pass}'`;
 	db.query(sql, (err, result) => {
@@ -67,9 +66,10 @@ app.get('/login/:email/:pass', (req, res) => {
 	db.end();
 });
 
-
+//
 
 const allClients = [];
+
 
 app.get("/", (req, res) => {
 	res.send("Özgür ÖZALP");
