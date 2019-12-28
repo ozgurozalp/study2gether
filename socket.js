@@ -29,7 +29,7 @@ function connect() {
 
 connect();
 
-db.on('error', connect());
+db.on('error', () => connect());
 
 
 // ilaç sorgulama
