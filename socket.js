@@ -40,14 +40,11 @@ app.get('/eczane/:ad/:k_id', (req, res) => {
 			db.query(sql2, (error2, result2, fields2) => {
 				if (error2)
 					console.log(error2);
+				else
+					db.end();
 			});
 		}
 	});
-
-	console.log("ilac id : " + ilac_id);
-
-	/**/
-	db.end();
 });
 
 // Kayıt olma
