@@ -118,7 +118,7 @@ app.get('/getLastSearched/:k_id', (req, res) => {
 	db.connect()
 
 	let id = req.params.k_id;
-	let sql = `SELECT kullanici.kullanici_id, kullanici.kullanici_ad, ilac.ilac_ad FROM son_aranan_ilac
+	let sql = `SELECT son_aranan_ilac.id, kullanici.kullanici_id, kullanici.kullanici_ad, ilac.ilac_ad FROM son_aranan_ilac
 			INNER JOIN kullanici on kullanici.kullanici_id = son_aranan_ilac.kullanici_id 
 			INNER JOIN ilac on ilac.ilac_id = son_aranan_ilac.ilac_id WHERE kullanici.kullanici_id = ${id} ORDER BY id DESC`;
 	db.query(sql, (err, result) => {
