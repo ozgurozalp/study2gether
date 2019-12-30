@@ -28,7 +28,6 @@ app.get('/eczane/:ad/:k_id', (req, res) => {
 	 	INNER JOIN ilac on tablo_stok.ilac_id = ilac.ilac_id WHERE ilac.ilac_ad LIKE '%${req.params.ad}%' ORDER BY tablo_stok.adet DESC`;
 
 	db.query(sql, (error, result, fields) => {
-		console.log(result[0]);
 		if (error) {
 			console.log(error);
 			return res.json({status : false});
@@ -38,7 +37,8 @@ app.get('/eczane/:ad/:k_id', (req, res) => {
 			res.json(result);
 		}
 	});
-	let sql2 = `INSERT INTO son_aranan_ilac SET ilac_id = ${ilac_id}, kullanici_id = ${req.params.k_id}`;
+	console.log("ilac id : "+ilac_id);
+	let sql2 = `INSERT INTO son_aranan_ilac (ilac_id, kullanici_id) VALUES(${ilac_id}, ${req.params.k_id})`;
 	db.query(sql2, (error, result, fields) => {
 		if (error) {
 			console.log(error);
