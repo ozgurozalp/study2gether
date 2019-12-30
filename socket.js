@@ -108,8 +108,8 @@ app.get('/login/:email/:pass', (req, res) => {
 });
 
 app.get('/getLastSearched/:k_id', (req, res) => {
-	res.end("Hello");
-	/*const db = mysql.createConnection({
+
+	const db = mysql.createConnection({
 		host: "remotemysql.com",
 		user: "R8nGjvFVRF",
 		password: "0avGPlzMQ1",
@@ -118,7 +118,8 @@ app.get('/getLastSearched/:k_id', (req, res) => {
 	db.connect()
 
 	let id = req.params.id;
-	let sql = `SELECT kullanici.kullanici_id, kullanici.kullanici_ad, ilac.ilac_ad FROM son_aranan_ilac 
+	res.end(id);
+	/*let sql = `SELECT kullanici.kullanici_id, kullanici.kullanici_ad, ilac.ilac_ad FROM son_aranan_ilac
 			INNER JOIN kullanici on kullanici.kullanici_id = son_aranan_ilac.kullanici_id 
 			INNER JOIN ilac on ilac.ilac_id = son_aranan_ilac.ilac_id WHERE kullanici.kullanici_id = ${id} ORDER BY id DESC`;
 	db.query(sql, (err, result) => {
