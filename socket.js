@@ -37,18 +37,16 @@ app.get('/eczane/:ad/:k_id', (req, res) => {
 			data = result;
 	});
 
-	res.end()
-	/*let sql2 = `INSERT INTO son_aranan_ilac SET ilac_id = , kullanici_id = ${req.params.k_id}`;
+	let sql2 = `INSERT INTO son_aranan_ilac SET ilac_id = ${data[0].ilac_id}, kullanici_id = ${req.params.k_id}`;
 
 	db.query(sql2, (error, result, fields) => {
 		if (error) {
 			console.log(error);
 			return json({status : false});
 		}
-		else
-			data = result;
-	});*/
+	});
 
+	res.json(data);
 
 	db.end();
 });
