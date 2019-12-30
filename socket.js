@@ -82,7 +82,7 @@ app.get('/login/:email/:pass', (req, res) => {
 		if (result.length > 0) {
 			let data = {
 				status : true,
-				...result
+				...result[0]
 			}
 			res.json(data);
 		} else
