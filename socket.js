@@ -53,7 +53,7 @@ app.get('/register/:email/:pass', (req, res) => {
 			res.json({status : false});
 		}
 		else
-			res.json({status : true, name : result.kullanici_ad});
+			res.json({status : true, name : result.kullanici_ad, id : result.kullanici_id});
 	});
 
 	db.end();
@@ -73,7 +73,7 @@ app.get('/login/:email/:pass', (req, res) => {
 	db.query(sql, (err, result) => {
 		if (err) return console.log(err);
 		if (result.length > 0)
-			res.json(result);
+			res.json({status : true, name : result.kullanici_ad, id : result.kullanici_id});
 		else
 			res.json({status : false});
 	});
