@@ -36,7 +36,8 @@ app.get('/eczane/:ad/:k_id', (req, res) => {
 		else
 			data = result;
 	});
-
+	console.log(data);
+	return res.end()
 	let sql2 = `INSERT INTO son_aranan_ilac SET ilac_id = ${data[0].ilac_id}, kullanici_id = ${req.params.k_id}`;
 
 	db.query(sql2, (error, result, fields) => {
