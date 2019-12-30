@@ -52,8 +52,14 @@ app.get('/register/:email/:pass', (req, res) => {
 			console.log(err);
 			res.json({status : false});
 		}
-		else
-			res.json({status : true, name : result.kullanici_ad, id : result.kullanici_id});
+		else {
+			let data = {
+				status : true,
+				name : result.kullanici_ad,
+				id : result.kullanici_id
+			}
+			res.json(data);
+		}
 	});
 
 	db.end();
@@ -67,14 +73,20 @@ app.get('/login/:email/:pass', (req, res) => {
 		password: "0avGPlzMQ1",
 		database: "R8nGjvFVRF"
 	});
-	db.connect();
+	db.connect()
+
 	let {email, pass} = req.params;
 	let sql = `SELECT * from kullanici WHERE kullanici_email = '${email}' AND kullanici_sifre = '${pass}'`;
 	db.query(sql, (err, result) => {
 		if (err) return console.log(err);
-		if (result.length > 0)
-			res.json({status : true, name : result.kullanici_ad, id : result.kullanici_id});
-		else
+		if (result.length > 0) {
+			let data = {
+				status : true,
+				name : result.kullanici_ad,
+				id : result.kullanici_id
+			}
+			res.json(data);
+		} else
 			res.json({status : false});
 	});
 
