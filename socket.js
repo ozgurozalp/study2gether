@@ -37,7 +37,7 @@ app.get('/eczane/:ad/:k_id', (req, res) => {
 			db.query(sql2, (error2, result2, fields) => {
 				if (error2) {
 					console.log(error2);
-					return json({status : false});
+					return res.json({status : false});
 				} else {
 					res.json(result);
 				}
