@@ -21,7 +21,6 @@ app.get('/eczane/:ad/:k_id', (req, res) => {
 		password: "0avGPlzMQ1",
 		database: "R8nGjvFVRF"
 	});
-	let data;
 	db.connect();
 	let sql = `SELECT eczane.eczane_ad, ilac.ilac_ad, ilac.ilac_id, eczane.eczane_adres, eczane.eczane_tel_no,
  		tablo_stok.adet FROM tablo_stok INNER JOIN eczane on eczane.eczane_id = tablo_stok.eczane_id 
@@ -34,22 +33,17 @@ app.get('/eczane/:ad/:k_id', (req, res) => {
 			return json({status : false});
 		}
 		else {
-			console.log(result);
+			let sql2 = `INSERT INTO son_aranan_ilac SET ilac_id = ${result[0].ilac_id}, kullanici_id = ${req.params.k_id}`;
+			db.query(sql2, (error2, result2, fields) => {
+				if (error2) {
+					console.log(error2);
+					return json({status : false});
+				} else {
+					res.json(result);
+				}
+			});
 		}
 	});
-
-	return res.end()
-	let sql2 = `INSERT INTO son_aranan_ilac SET ilac_id = ${data[0].ilac_id}, kullanici_id = ${req.params.k_id}`;
-
-	db.query(sql2, (error, result, fields) => {
-		if (error) {
-			console.log(error);
-			return json({status : false});
-		}
-	});
-
-	res.json(data);
-
 	db.end();
 });
 
