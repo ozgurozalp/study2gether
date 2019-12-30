@@ -69,11 +69,11 @@ app.get('/login/:email/:pass', (req, res) => {
 	});
 	db.connect();
 	let {email, pass} = req.params;
-	let sql = `SELECT kullanici_ad, kullanici_email, kullanici_sifre from kullanici WHERE kullanici_email = '${email}' AND kullanici_sifre = '${pass}'`;
+	let sql = `SELECT * from kullanici WHERE kullanici_email = '${email}' AND kullanici_sifre = '${pass}'`;
 	db.query(sql, (err, result) => {
 		if (err) return console.log(err);
 		if (result.length > 0)
-			res.json({status : true, name : result.kullanici_ad});
+			res.json({status : true, name : result.kullanici_ad, id : result.kullanici_id});
 		else
 			res.json({status : false});
 	});
