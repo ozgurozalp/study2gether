@@ -34,19 +34,19 @@ app.get('/eczane/:ad/:k_id', (req, res) => {
 		}
 		else {
 			ilac_id = result[0].ilac_id;
-			console.log("ilac id : " + result[0].ilac_id);
-			return res.json(result);
+			res.json(result);
+
+			let sql2 = `INSERT INTO son_aranan_ilac (ilac_id, kullanici_id) VALUES(${ilac_id}, ${req.params.k_id})`;
+			db.query(sql2, (error2, result2, fields2) => {
+				if (error2)
+					console.log(error2);
+			});
 		}
 	});
 
 	console.log("ilac id : " + ilac_id);
 
-	/*let sql2 = `INSERT INTO son_aranan_ilac (ilac_id, kullanici_id) VALUES(${ilac_id}, ${req.params.k_id})`;
-	db.query(sql2, (error, result, fields) => {
-		if (error) {
-			console.log(error);
-		}
-	});*/
+	/**/
 	db.end();
 });
 
