@@ -48,10 +48,12 @@ app.get('/register/:email/:pass', (req, res) => {
 	let {email, pass} = req.params;
 	let sql = `INSERT INTO kullanici (kullanici_email, kullanici_sifre) VALUES ('${email}', '${pass}')`;
 	db.query(sql, (err, result) => {
-		if (err)
+		if (err) {
 			console.log(err);
+			res.json({status : false});
+		}
 		else
-			res.json({status : true});
+			res.json({status : true, name : result.kullanici_ad});
 	});
 
 	db.end();
