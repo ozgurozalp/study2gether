@@ -14,24 +14,42 @@ app.use(cors());
 
 
 // ilaç sorgulama
-app.get('/eczane/:ad', (req, res) => {
+app.get('/eczane/:ad/:k_id', (req, res) => {
 	const db = mysql.createConnection({
 		host: "remotemysql.com",
 		user: "R8nGjvFVRF",
 		password: "0avGPlzMQ1",
 		database: "R8nGjvFVRF"
 	});
+	let data;
 	db.connect();
 	let sql = `SELECT eczane.eczane_ad, ilac.ilac_ad, eczane.eczane_adres, eczane.eczane_tel_no,
  		tablo_stok.adet FROM tablo_stok INNER JOIN eczane on eczane.eczane_id = tablo_stok.eczane_id 
 	 	INNER JOIN ilac on tablo_stok.ilac_id = ilac.ilac_id WHERE ilac.ilac_ad LIKE '%${req.params.ad}%' ORDER BY tablo_stok.adet DESC`;
 
 	db.query(sql, (error, result, fields) => {
-		if (error)
+		console.log(result[0]);
+		if (error) {
 			console.log(error);
+			return json({status : false});
+		}
 		else
-			res.json(result);
+			data = result;
 	});
+
+	res.end()
+	/*let sql2 = `INSERT INTO son_aranan_ilac SET ilac_id = , kullanici_id = ${req.params.k_id}`;
+
+	db.query(sql2, (error, result, fields) => {
+		if (error) {
+			console.log(error);
+			return json({status : false});
+		}
+		else
+			data = result;
+	});*/
+
+
 	db.end();
 });
 
