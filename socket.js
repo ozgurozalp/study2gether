@@ -53,12 +53,18 @@ app.get('/register/:email/:pass', (req, res) => {
 			res.json({status : false});
 		}
 		else {
-			let data = {
-				status : true,
-				name : result.kullanici_ad,
-				id : result.kullanici_id
-			}
-			res.json(data);
+			let sql = `SELECT kullanici_ad, kullanici_id from kullanici WHERE kullanici_email = '${email}' AND kullanici_sifre = '${pass}'`;
+			db.query(sql, (err, result) => {
+				if (err) return console.log(err);
+				if (result.length > 0) {
+					let data = {
+						status : true,
+						...result[0]
+					}
+					res.json(data);
+				} else
+					res.json({status : false});
+			});
 		}
 	});
 
