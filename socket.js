@@ -71,7 +71,7 @@ app.get('/login/:email/:pass', (req, res) => {
 	db.query(sql, (err, result) => {
 		if (err) return console.log(err);
 		if (result.length > 0)
-			res.json({status : true, name : resul.kullanici_ad});
+			res.json({status : true, name : result.kullanici_ad});
 		else
 			res.json({status : false});
 	});
