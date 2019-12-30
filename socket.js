@@ -108,7 +108,8 @@ app.get('/login/:email/:pass', (req, res) => {
 });
 
 app.get('/getLastSearched/:k_id', (req, res) => {
-	const db = mysql.createConnection({
+	res.end("Hello");
+	/*const db = mysql.createConnection({
 		host: "remotemysql.com",
 		user: "R8nGjvFVRF",
 		password: "0avGPlzMQ1",
@@ -125,7 +126,7 @@ app.get('/getLastSearched/:k_id', (req, res) => {
 		res.json(result);
 	});
 
-	db.end();
+	db.end();*/
 });
 
 const allClients = [];
