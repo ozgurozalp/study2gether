@@ -2,17 +2,22 @@
 	"name": "study2gether",
 	"version": "1.0.0",
 	"description": "study2gether.online",
-	"main": "socket.js",
+	"main": "0socket.js",
 	"scripts": {
-		"start": "node socket"
+		"start": "node socket.js"
 	},
+	"type": "module",
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
 		"cors": "^2.8.5",
 		"express": "^4.17.1",
-		"node-fetch": "^2.6.0",
-		"socket.io": "^2.3.0"
+		"node-fetch": "^2.6.1",
+		"socket.io": "^3.0.1"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.6",
+		"prettier": "^2.1.2"
 	}
 }

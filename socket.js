@@ -1,78 +1,67 @@
-// Gerekli kütüphaneler
-const app = require("express")(); // http sunucusu için
-const cors = require("cors"); // siteler arası veri transferi için izin
-const server = require("http").Server(app); // sunucuyu kurma
-const io = require("socket.io")(server);
-const fetch = require("node-fetch");
-const PORT = process.env.PORT || 5000; // sunucunun hangi portta çalışacağı
-// cors için kullanıma açma
-app.use(cors());
+import express from 'express';
+import { createServer } from 'http';
+import { Server } from 'socket.io';
+import fetch from 'node-fetch';
+
+const PORT = process.env.PORT || 5000;
+const app = express();
+const server = createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: '*',
+  },
+});
 
 const allClients = [];
 
-app.get("/", (req, res) => {
-  res.send("Özgür ÖZALP");
-});
+io.on('connection', socket => {
+  console.log('a user connected');
 
-io.on("connection", (socket) => {
   allClients.push({
     id: socket.id,
-    userName: null,
-    roomName: null,
   });
 
-  socket.on("add-user", (data) => {
-    let indexNo = allClients.findIndex((client) => client.id == socket.id);
-    if (indexNo > -1) {
-      allClients[indexNo].userName = data.userName;
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
 
-      fetch(`https://study2gether.online/room/${data.codeId}`)
-        .then((res) => res.json())
-        .then((response) => {
-          console.log(response);
-          if (response.status) {
-            allClients[indexNo].roomName = `room#${data.codeId}`;
-            socket.join(allClients[indexNo].roomName);
+  socket.on('add-user', async ({ codeId, userName }) => {
+    try {
+      const res = await fetch(`https://study2gether.online/room/${codeId}`);
+      const { status } = await res.json();
+      if (status) {
+        const roomName = `room#${codeId}`;
+        let client = allClients.find(client => client.id === socket.id);
 
-            io.to(allClients[indexNo].roomName).emit("welcome", {
-              userName: data.userName,
-              row: indexNo + 1,
-              roomName: allClients[indexNo].roomName,
-            });
-          }
-        })
-        .catch((error) => console.log(error));
+        if (client) {
+          client.userName = userName;
+          client.roomName = roomName;
+          socket.join(roomName);
+        }
+      }
+    } catch (error) {
+      console.log(error);
     }
   });
 
-  socket.on("broadcast", (data) => {
-    let indexNo = allClients.findIndex((client) => client.id == socket.id);
-    if (indexNo > -1) {
-      let newClients = allClients.filter((client) =>
-        client.roomName == allClients[indexNo].roomName
-      );
-      newClients = newClients.filter((client) => client.id != socket.id);
-      newClients.forEach((client) => {
-        io.to(client.id).emit("text", {
-          text: data.text,
-          cursorRow: data.cursorRow,
-          cursorColumn: data.cursorColumn,
-        });
+  socket.on('broadcast', data => {
+    let client = allClients.find(client => client.id === socket.id);
+    if (client) {
+      io.to(client.roomName).emit('text', {
+        text: data.text,
+        cursorRow: data.cursorRow,
+        cursorColumn: data.cursorColumn,
       });
     }
   });
-  socket.on("howManyClients", () => {
-    socket.emit("clients", {
-      count: socket.client.conn.server.clientsCount,
-    });
-  });
-  socket.on("disconnect", () => {
-    let indexNo = allClients.findIndex((client) => client.id == socket.id);
-    if (indexNo > -1) {
-      socket.leave(allClients[indexNo].roomName);
-      allClients.splice(indexNo, 1);
-    }
+});
+
+app.get('/', (req, res) => {
+  res.json({
+    msg: 'Hello World',
   });
 });
 
-server.listen(PORT, () => console.log(`${PORT} portunda çalışıyorum.`)); // sunucuyu ayağa kaldırıyor
+server.listen(PORT, () => {
+  console.log(`Socket is running on port ${PORT}`);
+});
