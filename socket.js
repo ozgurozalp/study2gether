@@ -22,7 +22,11 @@ io.on('connection', socket => {
   });
 
   socket.on('disconnect', () => {
-    console.log('user disconnected');
+    let indexNo = allClients.findIndex(client => client.id === socket.id);
+    if (indexNo > -1) {
+      socket.leave(allClients[indexNo].roomName);
+      allClients.splice(indexNo, 1);
+    }
   });
 
   socket.on('add-user', async ({ codeId, userName }) => {
