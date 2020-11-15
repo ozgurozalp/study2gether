@@ -8,8 +8,7 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: '*',
-    credentials: true,
+    origin: 'https://study2gether.online',
   },
 });
 
