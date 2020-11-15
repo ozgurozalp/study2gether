@@ -47,7 +47,7 @@ io.on('connection', socket => {
   socket.on('broadcast', data => {
     let client = allClients.find(client => client.id === socket.id);
     if (client) {
-      io.to(client.roomName).emit('text', {
+      socket.broadcast.to(client.roomName).emit('text', {
         text: data.text,
         cursorRow: data.cursorRow,
         cursorColumn: data.cursorColumn,
